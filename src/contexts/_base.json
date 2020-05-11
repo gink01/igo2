@@ -127,6 +127,9 @@
       "name": "spatialFilter"
     },
     {
+      "name": "spatialFilterExport"
+    },
+    {
       "name": "timeFilter"
     },
     {
