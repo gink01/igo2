@@ -18,5 +18,10 @@
     "target": "https://ws.mapserver.transports.gouv.qc.ca",
     "secure": false,
     "changeOrigin": true
+  },
+  "/services/": {
+    "target": "http://geoappext.nrcan.gc.ca",
+    "changeOrigin": true,
+    "secure": false
   }
 }
