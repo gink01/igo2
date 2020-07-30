@@ -38,8 +38,20 @@
         "title": "Milieu maritime",
         "composite": [
           {
-            "id": "tq_swtq",
+            "id": "rn_wms",
+            "url": "https://geoegl.msp.gouv.qc.ca/apis/ws/igo_gouvouvert.fcgi",
+            "regFilters": ["zpegt"],
+            "groupImpose": {"id": "zpegt", "title": "zpegt"}
+          },
+          {
+            "id": "alg",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Algea_Algue_HighDensity/MapServer/0",
+            "type": "arcgisrest",
+            "groupImpose": {"id": "FF", "title": "Faune et flore"}
+          },
+          {
+            "id": "cor",
+            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/CSAS_Corals_Sponges_2010_FR/MapServer/10",
             "type": "arcgisrest",
             "groupImpose": {"id": "FF", "title": "Faune et flore"}
           },
@@ -48,11 +60,6 @@
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Distributions_of_Marine_Fishes_of_Arctic_Canada/MapServer/215",
             "type": "arcgisrest",
             "groupImpose": {"id": "peche", "title": "Pêcheries"}
-          },
-          {
-            "id": "bassin",
-            "url": "/services/GSCA/basin_f/MapServer/WMSServer?request=GetCapabilities&service=WMS&version=1.3.0",
-            "sortDirection": "asc"
           }
         ]
       }
