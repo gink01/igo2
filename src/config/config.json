@@ -25,19 +25,6 @@
         "url": "/ws/igo_gouvouvert.fcgi"
       },
       {
-        "id": "mtq",
-        "title": "MTQ",
-        "url": "/swtq",
-        "sortDirection": "desc",
-        "queryFormat": {
-          "htmlgml2": "*",
-          "json": "stations_meteoroutieres"
-        },
-        "queryHtmlTarget": "iframe",
-        "count": 365,
-        "tooltipType": "abstract"
-      },
-      {
         "id": "regexmtq",
         "title": "MTQ (filtered by regex)",
         "url": "/swtq",
@@ -55,23 +42,32 @@
           },
           {
             "id": "alg",
-            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Algea_Algue_HighDensity/MapServer/0",
+            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Algea_Algue_HighDensity/MapServer",
             "type": "arcgisrest",
-            "groupImpose": {"id": "FF", "title": "Faune et flore"}
+            "groupImpose": {"id": "FF", "title": "Faune et flore"},
+            "regFilters": ["^0$"]
           },
           {
             "id": "cor",
-            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/CSAS_Corals_Sponges_2010_FR/MapServer/10",
+            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/CSAS_Corals_Sponges_2010_FR/MapServer",
             "type": "arcgisrest",
-            "groupImpose": {"id": "FF", "title": "Faune et flore"}
+            "groupImpose": {"id": "FF", "title": "Faune et flore"},
+            "regFilters": ["^10$"]
           },
           {
             "id": "Gououvert",
-            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Distributions_of_Marine_Fishes_of_Arctic_Canada/MapServer/215",
+            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Distributions_of_Marine_Fishes_of_Arctic_Canada/MapServer",
             "type": "arcgisrest",
-            "groupImpose": {"id": "peche", "title": "Pêcheries"}
+            "groupImpose": {"id": "peche", "title": "Pêcheries"},
+            "regFilters": ["^215$"]
           }
         ]
+      },
+      {
+        "id": "alg",
+        "title": "test",
+        "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/CSAS_Corals_Sponges_2010_FR/MapServer",
+        "type": "arcgisrest"
       }
     ]
   }
