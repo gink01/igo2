@@ -7,8 +7,8 @@ import {
   ElementRef
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription, of, BehaviorSubject } from 'rxjs';
-import { debounceTime, take } from 'rxjs/operators';
+import { Subscription, of, BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, take, pairwise, skipWhile, mergeMap, map, concatMap, tap } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MapBrowserPointerEvent as OlMapBrowserPointerEvent } from 'ol/MapBrowserEvent';
 import * as olProj from 'ol/proj';
@@ -19,18 +19,20 @@ import {
   MediaOrientation,
   ConfigService,
   LanguageService,
-  MessageService
+  MessageService,
+  StorageService
 } from '@igo2/core';
 import {
-  // ActionbarMode,
-  // Workspace,
-  // WorkspaceStore,
-  // EntityRecord,
+  ActionbarMode,
+  Workspace,
+  WorkspaceStore,
   ActionStore,
   EntityStore,
   // getEntityTitle,
   Toolbox,
-  Tool
+  Tool,
+  Widget,
+  EntityTablePaginatorOptions
 } from '@igo2/common';
 import { AuthService } from '@igo2/auth';
 import { DetailedContext } from '@igo2/context';
@@ -45,7 +47,6 @@ import {
   Research,
   SearchResult,
   SearchSource,
-  SearchService,
   SearchSourceService,
   CapabilitiesService,
   sourceCanSearch,
@@ -57,7 +58,11 @@ import {
   FEATURE,
   ImportService,
   handleFileImportError,
-  handleFileImportSuccess
+  handleFileImportSuccess,
+  featureFromOl,
+  QueryService,
+  WfsWorkspace,
+  FeatureWorkspace
 } from '@igo2/geo';
 
 import {
@@ -65,13 +70,13 @@ import {
   MapState,
   SearchState,
   QueryState,
-  ContextState
+  ContextState,
+  WorkspaceState
 } from '@igo2/integration';
 
 import {
   expansionPanelAnimation,
   toastPanelAnimation,
-  baselayersAnimation,
   controlsAnimations,
   controlSlideX,
   controlSlideY,
@@ -82,6 +87,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { WelcomeWindowComponent } from './welcome-window/welcome-window.component';
 import { WelcomeWindowService } from './welcome-window/welcome-window.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-portal',
@@ -90,7 +96,6 @@ import { WelcomeWindowService } from './welcome-window/welcome-window.service';
   animations: [
     expansionPanelAnimation(),
     toastPanelAnimation(),
-    baselayersAnimation(),
     controlsAnimations(),
     controlSlideX(),
     controlSlideY(),
@@ -101,9 +106,24 @@ import { WelcomeWindowService } from './welcome-window/welcome-window.service';
 export class PortalComponent implements OnInit, OnDestroy {
   public minSearchTermLength = 2;
   public hasExpansionPanel = false;
-  public expansionPanelExpanded = false;
-  public toastPanelOpened = true;
-  public fullExtent;
+  public hasGeolocateButton = true;
+  public hasFeatureEmphasisOnSelection: Boolean = false;
+  public workspaceNotAvailableMessage: String = 'workspace.disabled.resolution';
+  public workspacePaginator: MatPaginator;
+  public workspaceEntitySortChange$: BehaviorSubject<
+    boolean
+  > = new BehaviorSubject(false);
+  public paginatorOptions: EntityTablePaginatorOptions = {
+    pageSize: 50, // Number of items to display on a page.
+    pageSizeOptions: [1, 5, 10, 20, 50, 100, 500] // The set of provided page size options to display to the user.
+  };
+  public workspaceMenuClass = 'workspace-menu';
+
+  public fullExtent = this.storageService.get('fullExtent') as boolean;
+  private workspaceMaximize$$: Subscription[] = [];
+  readonly workspaceMaximize$: BehaviorSubject<boolean> = new BehaviorSubject(
+    this.storageService.get('workspaceMaximize') as boolean
+  );
   public sidenavOpened = false;
   public searchBarTerm = '';
   public onSettingsChange$ = new BehaviorSubject<boolean>(undefined);
@@ -117,28 +137,17 @@ export class PortalComponent implements OnInit, OnDestroy {
   private contextLoaded = false;
 
   private context$$: Subscription;
+  private openSidenav$$: Subscription;
 
   public igoSearchPointerSummaryEnabled = false;
 
-  public tableStore = new EntityStore([]);
-  public tableTemplate = {
-    selection: true,
-    sort: true,
-    columns: [
-      {
-        name: 'id',
-        title: 'ID'
-      },
-      {
-        name: 'name',
-        title: 'Name'
-      },
-      {
-        name: 'description',
-        title: 'Description'
-      }
-    ]
-  };
+  public toastPanelForExpansionOpened = true;
+  private activeWidget$$: Subscription;
+  public showToastPanelForExpansionToggle = false;
+  public selectedWorkspace$: BehaviorSubject<Workspace> = new BehaviorSubject(
+    undefined
+  );
+  private menuButtonReverseColor = false;
 
   @ViewChild('mapBrowser', { read: ElementRef, static: true })
   mapBrowser: ElementRef;
@@ -148,6 +157,19 @@ export class PortalComponent implements OnInit, OnDestroy {
   get map(): IgoMap {
     return this.mapState.map;
   }
+
+  get toastPanelOpened(): boolean {
+    return this._toastPanelOpened;
+  }
+  set toastPanelOpened(value: boolean) {
+    if (value !== !this._toastPanelOpened) {
+      return;
+    }
+    this._toastPanelOpened = value;
+    this.cdRef.detectChanges();
+  }
+  private _toastPanelOpened =
+    (this.storageService.get('toastOpened') as boolean) !== false;
 
   isMobile(): boolean {
     return this.mediaService.getMedia() === Media.Mobile;
@@ -172,26 +194,28 @@ export class PortalComponent implements OnInit, OnDestroy {
     );
   }
 
+  get expansionPanelExpanded(): boolean {
+    return this.workspaceState.workspacePanelExpanded;
+  }
+  set expansionPanelExpanded(value: boolean) {
+    this.workspaceState.workspacePanelExpanded = value;
+  }
+
   get toastPanelShown(): boolean {
     return true;
   }
 
   get expansionPanelBackdropShown(): boolean {
-    return false;
+    return this.expansionPanelExpanded && this.toastPanelForExpansionOpened;
   }
 
-  // get actionbarMode(): ActionbarMode {
-  //   if (this.mediaService.media$.value === Media.Mobile) {
-  //     return ActionbarMode.Overlay;
-  //   }
-  //   return this.expansionPanelExpanded
-  //     ? ActionbarMode.Dock
-  //     : ActionbarMode.Overlay;
-  // }
-  //
-  // get actionbarWithTitle(): boolean {
-  //   return this.actionbarMode === ActionbarMode.Overlay;
-  // }
+  get actionbarMode(): ActionbarMode {
+    return ActionbarMode.Overlay;
+  }
+
+  get actionbarWithTitle(): boolean {
+    return this.actionbarMode === ActionbarMode.Overlay;
+  }
 
   get searchStore(): EntityStore<SearchResult> {
     return this.searchState.store;
@@ -205,15 +229,15 @@ export class PortalComponent implements OnInit, OnDestroy {
     return this.toolState.toolbox;
   }
 
-  // get toastPanelContent(): string {
-  //   let content;
-  //   if (this.workspace !== undefined && this.workspace.hasWidget) {
-  //     content = 'workspace';
-  //   } else if (this.searchResult !== undefined) {
-  //     content = this.searchResult.meta.dataType.toLowerCase();
-  //   }
-  //   return content;
-  // }
+  get toastPanelContent(): string {
+    let content;
+    if (this.workspace !== undefined && this.workspace.hasWidget) {
+      content = 'workspace';
+    } /*else if (this.searchResult !== undefined) {
+      content = this.searchResult.meta.dataType.toLowerCase();
+    }*/
+    return content;
+  }
 
   // get toastPanelTitle(): string {
   //   let title;
@@ -226,29 +250,17 @@ export class PortalComponent implements OnInit, OnDestroy {
   //   return title;
   // }
 
-  // get toastPanelOpened(): boolean {
-  //   const content = this.toastPanelContent;
-  //   if (content === 'workspace') {
-  //     return true;
-  //   }
-  //   return this._toastPanelOpened;
-  // }
-  // set toastPanelOpened(value: boolean) {
-  //   this._toastPanelOpened = value;
-  // }
-  // private _toastPanelOpened = false;
+  get workspaceStore(): WorkspaceStore {
+    return this.workspaceState.store;
+  }
 
-  // get workspaceStore(): WorkspaceStore {
-  //   return this.workspaceState.store;
-  // }
-  //
-  // get workspace(): Workspace {
-  //   return this.workspaceState.workspace$.value;
-  // }
+  get workspace(): Workspace {
+    return this.workspaceState.workspace$.value;
+  }
 
   constructor(
     private route: ActivatedRoute,
-    // private workspaceState: WorkspaceState,
+    public workspaceState: WorkspaceState,
     public authService: AuthService,
     public mediaService: MediaService,
     public layerService: LayerService,
@@ -267,13 +279,28 @@ export class PortalComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private messageService: MessageService,
     private welcomeWindowService: WelcomeWindowService,
-    public dialogWindow: MatDialog
+    public dialogWindow: MatDialog,
+    private queryService: QueryService,
+    private storageService: StorageService
   ) {
     this.hasExpansionPanel = this.configService.getConfig('hasExpansionPanel');
+    this.hasGeolocateButton =
+    this.configService.getConfig('hasGeolocateButton') === undefined ? true : this.configService.getConfig('hasGeolocateButton') ;
     this.forceCoordsNA = this.configService.getConfig('app.forceCoordsNA');
+    this.hasFeatureEmphasisOnSelection = this.configService.getConfig(
+      'hasFeatureEmphasisOnSelection'
+    );
     this.igoSearchPointerSummaryEnabled = this.configService.getConfig(
       'hasSearchPointerSummary'
     );
+    if (
+      typeof this.configService.getConfig('menuButtonReverseColor') !==
+      'undefined'
+    ) {
+      this.menuButtonReverseColor = this.configService.getConfig(
+        'menuButtonReverseColor'
+      );
+    }
   }
 
   ngOnInit() {
@@ -307,26 +334,175 @@ export class PortalComponent implements OnInit, OnDestroy {
       }
     ]);
 
-    this.tableStore.load([
-      { id: '2', name: 'Name 2', description: 'Description 2' },
-      { id: '1', name: 'Name 1', description: 'Description 1' },
-      { id: '3', name: 'Name 3', description: 'Description 3' },
-      { id: '4', name: 'Name 4', description: 'Description 4' },
-      { id: '5', name: 'Name 5', description: 'Description 5' }
-    ]);
-
-    this.queryStore.count$.subscribe((i) => {
-      this.map.viewController.padding[2] = i ? 280 : 0;
-    });
+    this.queryStore.count$
+      .pipe(pairwise())
+      .subscribe(([prevCnt, currentCnt]) => {
+        this.map.viewController.padding[2] = currentCnt ? 280 : 0;
+        // on mobile. Close the toast if workspace is opened, on new query
+        if (
+          prevCnt === 0 &&
+          currentCnt !== prevCnt &&
+          this.isMobile() &&
+          this.hasExpansionPanel &&
+          this.expansionPanelExpanded &&
+          this.toastPanelOpened
+        ) {
+          this.toastPanelOpened = false;
+        }
+      });
     this.readQueryParams();
 
     this.onSettingsChange$.subscribe(() => {
       this.searchState.setSearchSettingsChange();
     });
+
+    this.searchState.selectedResult$.subscribe((result) => {
+      if (result && this.isMobile()) {
+        this.closeSidenav();
+      }
+    });
+
+    this.workspaceState.workspaceEnabled$.next(this.hasExpansionPanel);
+    this.workspaceState.store.empty$.subscribe((workspaceEmpty) => {
+      if (!this.hasExpansionPanel) {
+        return;
+      }
+      this.workspaceState.workspaceEnabled$.next(workspaceEmpty ? false : true);
+      if (workspaceEmpty) {
+        this.expansionPanelExpanded = false;
+      }
+      this.updateMapBrowserClass();
+    });
+
+    this.workspaceMaximize$$.push(this.workspaceState.workspaceMaximize$.subscribe((workspaceMaximize) => {
+      this.workspaceMaximize$.next(workspaceMaximize);
+      this.updateMapBrowserClass();
+    }));
+    this.workspaceMaximize$$.push(
+      this.workspaceMaximize$.subscribe(() => this.updateMapBrowserClass())
+    );
+
+    this.workspaceState.workspace$.subscribe((activeWks: WfsWorkspace | FeatureWorkspace) => {
+      if (activeWks) {
+        this.selectedWorkspace$.next(activeWks);
+        this.expansionPanelExpanded = true;
+      } else {
+        this.expansionPanelExpanded = false;
+      }
+    });
+
+    this.activeWidget$$ = this.workspaceState.activeWorkspaceWidget$.subscribe(
+      (widget: Widget) => {
+        if (widget !== undefined) {
+          this.openToastPanelForExpansion();
+          this.showToastPanelForExpansionToggle = true;
+        } else {
+          this.closeToastPanelForExpansion();
+          this.showToastPanelForExpansionToggle = false;
+        }
+      }
+    );
+
+    this.openSidenav$$ = this.toolState.openSidenav$.subscribe(
+      (openSidenav: boolean) => {
+        if (openSidenav) {
+          this.openSidenav();
+          this.toolState.openSidenav$.next(false);
+        }
+      }
+    );
+  }
+
+  getClassMenuButton() {
+    if (this.sidenavOpened) {
+      return {
+        'menu-button': this.menuButtonReverseColor === false,
+        'menu-button-reverse-color': this.menuButtonReverseColor === true
+      };
+    } else {
+      return {
+        'menu-button': this.menuButtonReverseColor === false,
+        'menu-button-reverse-color-close ': this.menuButtonReverseColor === true
+      };
+    }
+  }
+
+  workspaceVisibility(): boolean {
+    const wks = (this.selectedWorkspace$.value as WfsWorkspace | FeatureWorkspace);
+    if (wks.inResolutionRange$.value) {
+      if (wks.entityStore.empty$.value && !wks.layer.visible) {
+        this.workspaceNotAvailableMessage = 'workspace.disabled.visible';
+      } else {
+        this.workspaceNotAvailableMessage = '';
+      }
+    } else {
+      this.workspaceNotAvailableMessage = 'workspace.disabled.resolution';
+    }
+    return wks.inResolutionRange$.value;
+  }
+
+
+  paginatorChange(matPaginator: MatPaginator) {
+    this.workspacePaginator = matPaginator;
+  }
+
+  entitySortChange() {
+    this.workspaceEntitySortChange$.next(true);
+  }
+
+  entitySelectChange(result: { added: Feature[] }) {
+    const baseQuerySearchSource = this.getQuerySearchSource();
+    const querySearchSourceArray: QuerySearchSource[] = [];
+    if (result && result.added) {
+      const results = result.added.map((res) => {
+        if (
+          res &&
+          res.ol &&
+          res.ol.getProperties()._featureStore.layer &&
+          res.ol.getProperties()._featureStore.layer.visible
+        ) {
+          const featureStoreLayer = res.ol.getProperties()._featureStore.layer;
+          const feature = featureFromOl(
+            res.ol,
+            featureStoreLayer.map.projection,
+            featureStoreLayer.ol
+          );
+
+          feature.meta.alias = this.queryService.getAllowedFieldsAndAlias(
+            featureStoreLayer
+          );
+          feature.meta.title =
+            this.queryService.getQueryTitle(feature, featureStoreLayer) ||
+            feature.meta.title;
+          let querySearchSource = querySearchSourceArray.find(
+            (s) => s.title === feature.meta.sourceTitle
+          );
+          if (!querySearchSource) {
+            querySearchSource = new QuerySearchSource({
+              title: feature.meta.sourceTitle
+            });
+            querySearchSourceArray.push(querySearchSource);
+          }
+          return featureToSearchResult(feature, querySearchSource);
+        }
+      });
+
+      const research = {
+        request: of(results),
+        reverse: false,
+        source: baseQuerySearchSource
+      };
+      research.request.subscribe((queryResults: SearchResult<Feature>[]) => {
+        this.queryStore.load(queryResults);
+      });
+    }
   }
 
   ngOnDestroy() {
     this.context$$.unsubscribe();
+    this.activeWidget$$.unsubscribe();
+    this.openSidenav$$.unsubscribe();
+    this.workspaceMaximize$$.map(f => f.unsubscribe());
   }
 
   /**
@@ -343,6 +519,18 @@ export class PortalComponent implements OnInit, OnDestroy {
 
   onToggleSidenavClick() {
     this.toggleSidenav();
+  }
+
+  onDeactivateWorkspaceWidget() {
+    this.closeToastPanelForExpansion();
+  }
+
+  closeToastPanelForExpansion() {
+    this.toastPanelForExpansionOpened = false;
+  }
+
+  openToastPanelForExpansion() {
+    this.toastPanelForExpansionOpened = true;
   }
 
   onMapQuery(event: { features: Feature[]; event: OlMapBrowserPointerEvent }) {
@@ -481,7 +669,19 @@ export class PortalComponent implements OnInit, OnDestroy {
 
   toastOpenedChange(opened: boolean) {
     this.map.viewController.padding[2] = opened ? 280 : 0;
+    this.handleExpansionAndToastOnMobile();
     this.toastPanelOpened = opened;
+  }
+
+  private handleExpansionAndToastOnMobile() {
+    if (
+      this.isMobile() &&
+      this.hasExpansionPanel &&
+      this.expansionPanelExpanded &&
+      this.toastPanelOpened
+    ) {
+      this.expansionPanelExpanded = false;
+    }
   }
 
   public onClearSearch() {
@@ -492,6 +692,7 @@ export class PortalComponent implements OnInit, OnDestroy {
         .map((f) => f.data as Feature)
     );
     this.searchStore.clear();
+    this.searchState.setSelectedResult(undefined);
   }
 
   private getQuerySearchSource(): SearchSource {
@@ -537,36 +738,48 @@ export class PortalComponent implements OnInit, OnDestroy {
     this.searchBarTerm = coord.map((c) => c.toFixed(6)).join(', ');
   }
 
-  updateMapBrowserClass(e) {
+  updateMapBrowserClass() {
     const header = this.queryState.store.entities$.value.length > 0;
-    if (this.hasExpansionPanel) {
-      e.element.classList.add('has-expansion-panel');
+    if (this.hasExpansionPanel && this.workspaceState.workspaceEnabled$.value) {
+      this.mapBrowser.nativeElement.classList.add('has-expansion-panel');
     } else {
-      e.element.classList.remove('has-expansion-panel');
+      this.mapBrowser.nativeElement.classList.remove('has-expansion-panel');
     }
 
-    if (this.expansionPanelExpanded) {
-      e.element.classList.add('expansion-offset');
+    if (this.hasExpansionPanel && this.expansionPanelExpanded) {
+      if (this.workspaceMaximize$.value) {
+        this.mapBrowser.nativeElement.classList.add('expansion-offset-maximized');
+        this.mapBrowser.nativeElement.classList.remove('expansion-offset');
+      } else {
+        this.mapBrowser.nativeElement.classList.add('expansion-offset');
+        this.mapBrowser.nativeElement.classList.remove('expansion-offset-maximized');
+      }
     } else {
-      e.element.classList.remove('expansion-offset');
+      if (this.workspaceMaximize$.value) {
+        this.mapBrowser.nativeElement.classList.remove('expansion-offset-maximized');
+      } else {
+        this.mapBrowser.nativeElement.classList.remove('expansion-offset');
+      }
     }
 
     if (this.sidenavOpened) {
-      e.element.classList.add('sidenav-offset');
+      this.mapBrowser.nativeElement.classList.add('sidenav-offset');
     } else {
-      e.element.classList.remove('sidenav-offset');
+      this.mapBrowser.nativeElement.classList.remove('sidenav-offset');
     }
 
     if (this.sidenavOpened && !this.isMobile()) {
-      e.element.classList.add('sidenav-offset-baselayers');
+      this.mapBrowser.nativeElement.classList.add('sidenav-offset-baselayers');
     } else {
-      e.element.classList.remove('sidenav-offset-baselayers');
+      this.mapBrowser.nativeElement.classList.remove(
+        'sidenav-offset-baselayers'
+      );
     }
 
     if (!this.toastPanelOpened && header && !this.expansionPanelExpanded) {
-      e.element.classList.add('toast-offset-scale-line');
+      this.mapBrowser.nativeElement.classList.add('toast-offset-scale-line');
     } else {
-      e.element.classList.remove('toast-offset-scale-line');
+      this.mapBrowser.nativeElement.classList.remove('toast-offset-scale-line');
     }
 
     if (
@@ -575,9 +788,11 @@ export class PortalComponent implements OnInit, OnDestroy {
       (this.isMobile() || this.isTablet() || this.sidenavOpened) &&
       !this.expansionPanelExpanded
     ) {
-      e.element.classList.add('toast-offset-attribution');
+      this.mapBrowser.nativeElement.classList.add('toast-offset-attribution');
     } else {
-      e.element.classList.remove('toast-offset-attribution');
+      this.mapBrowser.nativeElement.classList.remove(
+        'toast-offset-attribution'
+      );
     }
   }
 
@@ -623,31 +838,26 @@ export class PortalComponent implements OnInit, OnDestroy {
     }
   }
 
-  getExpansionToastPanelStatus() {
-    if (this.expansionPanelExpanded === true) {
-      if (this.toastPanelOpened === true) {
-        return 'down';
-      }
-      if (this.toastPanelOpened === false) {
-        if (this.queryState.store.entities$.value.length > 0) {
-          return 'down';
+  getToastPanelOffsetY() {
+    let status = 'noExpansion';
+    if (this.expansionPanelExpanded) {
+      if (this.workspaceMaximize$.value) {
+        if (this.toastPanelOpened) {
+          status = 'expansionMaximizedAndToastOpened';
+        } else {
+          status = 'expansionMaximizedAndToastClosed';
         }
-        return 'up';
-      }
-      return 'up';
-    }
-    if (this.expansionPanelExpanded === false) {
-      if (this.toastPanelOpened === true) {
-        return 'down';
-      }
-      if (this.toastPanelOpened === false) {
-        if (this.queryState.store.entities$.value.length > 0) {
-          return 'up';
+      } else {
+        if (this.toastPanelOpened) {
+          status = 'expansionAndToastOpened';
+        } else {
+          status = 'expansionAndToastClosed';
         }
-        return 'down';
       }
-      return 'down';
+    } else {
+      status = 'noExpansion';
     }
+    return status;
   }
 
   getToastPanelStatus() {
@@ -661,29 +871,52 @@ export class PortalComponent implements OnInit, OnDestroy {
       }
     }
   }
+  getControlsOffsetY() {
+    return this.expansionPanelExpanded ? this.workspaceMaximize$.value ? 'firstRowFromBottom-expanded-maximized' : 'firstRowFromBottom-expanded' : 'firstRowFromBottom';
+  }
 
   getBaselayersSwitcherStatus() {
+    let status;
     if (this.isMobile()) {
-      if (this.hasExpansionPanel === true) {
-        if (this.toastPanelOpened === false) {
-          if (this.expansionPanelExpanded === false) {
-            if (this.queryState.store.entities$.value.length > 0) {
-              return 'up';
-            }
-            return 'down';
-          }
-          return 'down';
+
+      if (this.workspaceState.workspaceEnabled$.value) {
+        if (this.expansionPanelExpanded === false) {
+          if (this.queryState.store.entities$.value.length === 0) {
+            status = 'secondRowFromBottom';
+           } else {
+            status =  'thirdRowFromBottom';
+           }
+        } else {
+          if (this.queryState.store.entities$.value.length === 0) {
+            status = 'firstRowFromBottom-expanded';
+           } else {
+            status =  'secondRowFromBottom-expanded';
+           }
         }
-        return 'down';
+
+      } else {
+        if (this.queryState.store.entities$.value.length === 0) {
+          status =  'firstRowFromBottom';
+         } else {
+          status =  'secondRowFromBottom';
+         }
       }
-      if (this.hasExpansionPanel === false) {
-        if (this.toastPanelOpened === false) {
-          if (this.queryState.store.entities$.value.length > 0) {
-            return 'down';
+    } else {
+      if (this.workspaceState.workspaceEnabled$.value) {
+        if (this.expansionPanelExpanded) {
+          if (this.workspaceMaximize$.value) {
+            status = 'firstRowFromBottom-expanded-maximized';
+          } else {
+            status = 'firstRowFromBottom-expanded';
           }
+        } else {
+          status = 'secondRowFromBottom';
         }
+      } else {
+        status = 'firstRowFromBottom';
       }
     }
+    return status;
   }
 
   private readQueryParams() {
@@ -871,11 +1104,11 @@ export class PortalComponent implements OnInit, OnDestroy {
           visible: visibility,
           sourceOptions: {
             optionsFromCapabilities: true,
+            optionsFromApi: true,
             type: 'wms',
             url: url,
             params: {
-              layers: name,
-              version: '1.3.0'
+              layers: name
             }
           }
         })
