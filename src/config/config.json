@@ -92,28 +92,32 @@
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Seafloor_SubstratBenthique/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "geo", "title": "Géologie"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Substrat sédimentaire - Estuaire et Golf du Saint-Laurent"]
           },
           {
             "id": "11",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/AmericanShad_AloseSavoureuse_BreedingArea/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Aire de reproduction de l'alose savoureuse"]
           },
           {
             "id": "12",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/AtlanticSturgeon_EsturgeonNoir_ImportantSites/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Sites d'importance pour l'esturgeon noir"]
           },
           {
             "id": "13",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Beluga_Essential_Habitat/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Habitat essentiel du béluga"]
           },
           {
             "id": "14",
@@ -365,7 +369,8 @@
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Marsh_Marais/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "cotier", "title": "Milieu côtier"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Marais côtiers"]
           }
         ]
       }
