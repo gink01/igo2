@@ -124,56 +124,64 @@
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/BlueWhaleHabitat_HabitatBaleineBleue/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Habitat de la baleine bleue"]
           },
           {
             "id": "15",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Algea_Algue_HighDensity/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Zones de densité élevée d'algues"]
           },
           {
             "id": "16",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/CopperRedhorse_ChevalierCuivre_EssentialHabitat/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Habitat essentiel du chevalier cuivré"]
           },
           {
             "id": "17",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Distributions_of_Marine_Fishes_of_Arctic_Canada/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^215$"]
+            "regFilters": ["^215$"],
+            "alias": ["Occurences des espèces de poisson des eaux de l'Arctique canadien"]
           },
           {
             "id": "18",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/HarborSeal_PhoqueCommun_ReproductionArea/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Aires de reproduction et d'alimentation du phoque commun"]
           },
           {
             "id": "19",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/HumpbackWhales_RorqualBosse_Observation/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Observations du rorqual à bosse"]
           },
           {
             "id": "20",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/LakeSturgeon_EsturgeonJaune_ImportantSites/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Sites d'importance pour l'esturgeon jaune"]
           },
           {
             "id": "21",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Lumpfish_Lompe_BreedingArea/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Aire de reproduction de la lompe"]
           },
           {
             "id": "22",
