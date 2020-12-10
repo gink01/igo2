@@ -188,192 +188,206 @@
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Lumpfish_Lompe_PresenceCoast/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Présence côtière de la lompe"]
           },
           {
             "id": "23",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Lumpfish_Lompe_PresenceResearchSurvey/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Présence de la lompe dans les relevés de recherche"]
           },
           {
             "id": "24",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Nunavut_ringed_seal_monitoring/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Surveillance du phoque annelé au Nunavut"]
           },
           {
             "id": "25",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/RainbowSmelt_Eperlan_BreedingAndFeedingArea/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Aire de reproduction et d'alimentation de l'éperlan"]
           },
           {
             "id": "26",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/RainbowSmelt_Eperlan_LarvalRetentionArea/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Zone de rétention larvaire de l'éperlan arc-en-ciel"]
           },
           {
             "id": "27",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/SBAs_Coral_Sponge_2016_FR/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Aires significatives de coraux d'eau froide et de communautés dominées par les éponges"]
           },
           {
             "id": "28",
-            "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/SBAs_Coral_Sponge_2016_FR/MapServer",
-            "type": "arcgisrest",
-            "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
-          },
-          {
-            "id": "29",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/ScallopBeds_GisementsPetoncle/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Gisements de pétoncle"]
           },
           {
-            "id": "30",
+            "id": "29",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Seal_Phoque_Haulout/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Échourie de phoques"]
           },
           {
-            "id": "31",
+            "id": "30",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/SeaPens_PlumesMer_SignificantBenthicAreas/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Zones de concentration significative de plumes de mer"]
           },
           {
-            "id": "32",
+            "id": "31",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/SmoothSkate_RaieQueuedevelours_Presence/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Présence de la raie à queue de velours"]
           },
           {
-            "id": "33",
+            "id": "32",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Snow_Crab_Survey_2019/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Étude sur le relevé du crabe des neiges - 2019"]
           },
           {
-            "id": "34",
+            "id": "33",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Sponges_Eponges_SignificantBenthicAreas/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Zones de concentration significative d'éponges"]
           },
           {
-            "id": "35",
+            "id": "34",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/St_Lawrence_coastal_and_epipelagic_habitats/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Habitats côtier et épipélagique du St-Laurent"]
           },
           {
-            "id": "36",
+            "id": "35",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/StripedBass_BarRaye_Essential_Habitat/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Habitat essentiel du bar rayé"]
           },
           {
-            "id": "37",
+            "id": "36",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/ThornySkate_RaieEpineuse_Weight/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Présence de la raie épineuse"]
           },
           {
-            "id": "38",
+            "id": "37",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Zostera_Zostere/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Zostère"]
           },
           {
-            "id": "39",
+            "id": "38",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Canadas_Marine_Conservation_Targets_FR/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
             "regFilters": ["^0$", "^1$", "^2$"]
           },
           {
-            "id": "40",
+            "id": "39",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/DFO_SARA_CriticalHabitat/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
-            "regFilters": ["^1$"]
+            "regFilters": ["^1$"],
+            "alias": ["Habitat essentiel conformément à la loi sur les espèces en péril (LEP)"]
           },
           {
-            "id": "41",
+            "id": "40",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/DFO_SARA_Distribution/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
             "regFilters": ["^1$"]
           },
           {
-            "id": "42",
+            "id": "41",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Ecologically_and_Biologically_Significant_Areas/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Zones d'importance écologique et biologique"]
           },
           {
-            "id": "43",
+            "id": "42",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Megahabitats_DB/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Mégahabitats"]
           },
           {
-            "id": "44",
+            "id": "43",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/StationsMaregraphiques_FR/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "hydro", "title": "Données hydrograhiques"},
             "regFilters": ["^0$"]
           },
           {
-            "id": "45",
+            "id": "44",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/SmallCraftHarbours_Fr/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "peche", "title": "Pêcheries"},
             "regFilters": ["^0$", "^1$", "^2$"]
           },
           {
-            "id": "46",
+            "id": "45",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/SurfClamBeds_GisementsMactre/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "peche", "title": "Pêcheries"},
-            "regFilters": ["^0$"]
+            "regFilters": ["^0$"],
+            "alias": ["Gisements de mactre de Stimpson"]
           },
           {
-            "id": "47",
+            "id": "46",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Canadian_Anchorages_and_Anchorage_Areas/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "traffic", "title": "Traffic maritime"},
-            "regFilters": ["^2$", "^3$"]
+            "regFilters": ["^2$", "^3$"],
+            "alias": ["Zones de mouillage (ACHARE)", "Zones de mouillage à un navire (ACHBRT)"]
           },
           {
-            "id": "48",
+            "id": "47",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Lighthouse_Inventory_HLPA/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "traffic", "title": "Traffic maritime"},
             "regFilters": ["^1$"]
           },
           {
-            "id": "49",
+            "id": "48",
             "url": "https://gisp.dfo-mpo.gc.ca/arcgis/rest/services/FGP/Marsh_Marais/MapServer",
             "type": "arcgisrest",
             "groupImpose": {"id": "cotier", "title": "Milieu côtier"},
