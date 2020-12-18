@@ -93,7 +93,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "geo", "title": "Géologie"},
             "regFilters": ["^0$"],
-            "alias": ["Substrat sédimentaire - Estuaire et Golf du Saint-Laurent"]
+            "forcedProperties": [{
+              "layerName": "Sediment substrate / Substrat sédimentaire",
+              "title": "Substrat sédimentaire - Estuaire et Golf du Saint-Laurent"
+            }]
           },
           {
             "id": "11",
@@ -101,7 +104,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Aire de reproduction de l'alose savoureuse"]
+            "forcedProperties": [{
+              "layerName": "American shad breeding area / Aire de reproduction de l'alose savoureuse",
+              "title": "Aire de reproduction de l'alose savoureuse"
+            }]
           },
           {
             "id": "12",
@@ -109,7 +115,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Sites d'importance pour l'esturgeon noir"]
+            "forcedProperties": [{
+              "layerName": "Atlantic sturgeon important sites / Sites d'importance pour l'esturgeon noir",
+              "title": "Sites d'importance pour l'esturgeon noir"
+            }]
           },
           {
             "id": "13",
@@ -117,7 +126,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Habitat essentiel du béluga"]
+            "forcedProperties": [{
+              "layerName": "Beluga essential habitat / Habitat essentiel du béluga",
+              "title": "Habitat essentiel du béluga"
+            }]
           },
           {
             "id": "14",
@@ -125,7 +137,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Habitat de la baleine bleue"]
+            "forcedProperties": [{
+              "layerName": "Blue whale habitat / Habitat de la baleine bleue",
+              "title": "Habitat de la baleine bleue"
+            }]
           },
           {
             "id": "15",
@@ -133,7 +148,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Zones de densité élevée d'algues"]
+            "forcedProperties": [{
+              "layerName": "Algea high density areas / Zones de densité élevée d'algues",
+              "title": "Zones de densité élevée d'algues"
+            }]
           },
           {
             "id": "16",
@@ -141,7 +159,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Habitat essentiel du chevalier cuivré"]
+            "forcedProperties": [{
+              "layerName": "Copper redhorse essential habitat / Habitat essentiel du chevalier cuivré",
+              "title": "Habitat essentiel du chevalier cuivré"
+            }]
           },
           {
             "id": "17",
@@ -149,7 +170,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^215$"],
-            "alias": ["Occurences des espèces de poisson des eaux de l'Arctique canadien"]
+            "forcedProperties": [{
+              "layerName": "Marine_Fishes_of_Arctic_Canada",
+              "title": "Occurences des espèces de poisson des eaux de l'Arctique canadien"
+            }]
           },
           {
             "id": "18",
@@ -157,7 +181,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Aires de reproduction et d'alimentation du phoque commun"]
+            "forcedProperties": [{
+              "layerName": "Harbor seal breeding and feeding areas / Aires de reproduction et d'alimentation du phoque commun",
+              "title": "Aires de reproduction et d'alimentation du phoque commun"
+            }]
           },
           {
             "id": "19",
@@ -165,7 +192,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Observations du rorqual à bosse"]
+            "forcedProperties": [{
+              "layerName": "Humpback whale observations / Observations du rorqual à bosse",
+              "title": "Observations du rorqual à bosse"
+            }]
           },
           {
             "id": "20",
@@ -173,7 +203,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Sites d'importance pour l'esturgeon jaune"]
+            "forcedProperties": [{
+              "layerName": "Lake sturgeon important sites / Sites d'importance pour l'esturgeon jaune",
+              "title": "Sites d'importance pour l'esturgeon jaune"
+            }]
           },
           {
             "id": "21",
@@ -181,7 +214,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Aire de reproduction de la lompe"]
+            "forcedProperties": [{
+              "layerName": "Lumpfish breeding area / Aire de reproduction de la lompe",
+              "title": "Aire de reproduction de la lompe"
+            }]
           },
           {
             "id": "22",
@@ -189,7 +225,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Présence côtière de la lompe"]
+            "forcedProperties": [{
+              "layerName": "Lumpfish coastal presence / Présence côtière de la lompe",
+              "title": "Présence côtière de la lompe"
+            }]
           },
           {
             "id": "23",
@@ -197,7 +236,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Présence de la lompe dans les relevés de recherche"]
+            "forcedProperties": [{
+              "layerName": "Lumpfish presence in research surveys / Présence de la lompe dans les relevés de recherche",
+              "title": "Présence de la lompe dans les relevés de recherche"
+            }]
           },
           {
             "id": "24",
@@ -205,7 +247,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Surveillance du phoque annelé au Nunavut"]
+            "forcedProperties": [{
+              "layerName": "Nunavut ringed seal monitoring/Surveillance du phoque annelé au Nunavut",
+              "title": "Surveillance du phoque annelé au Nunavut"
+            }]
           },
           {
             "id": "25",
@@ -213,7 +258,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Aire de reproduction et d'alimentation de l'éperlan"]
+            "forcedProperties": [{
+              "layerName": "Rainbow smelt breeding and feeding area / Aire de reproduction et d'alimentation de l'éperlan",
+              "title": "Aire de reproduction et d'alimentation de l'éperlan"
+            }]
           },
           {
             "id": "26",
@@ -221,7 +269,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Zone de rétention larvaire de l'éperlan arc-en-ciel"]
+            "forcedProperties": [{
+              "layerName": "Rainbow smelt larval retention area / Zone de rétention larvaire de l'éperlan arc-en-ciel",
+              "title": "Zone de rétention larvaire de l'éperlan arc-en-ciel"
+            }]
           },
           {
             "id": "27",
@@ -229,7 +280,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Aires significatives de coraux d'eau froide et de communautés dominées par les éponges"]
+            "forcedProperties": [{
+              "layerName": "SBA coraux et des éponges 2016",
+              "title": "Aires significatives de coraux d'eau froide et de communautés dominées par les éponges"
+            }]
           },
           {
             "id": "28",
@@ -237,7 +291,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Gisements de pétoncle"]
+            "forcedProperties": [{
+              "layerName": "Scallop beds / Gisements de pétoncle",
+              "title": "Gisements de pétoncle"
+            }]
           },
           {
             "id": "29",
@@ -245,7 +302,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Échourie de phoques"]
+            "forcedProperties": [{
+              "layerName": "Seal haulout / Échourie de phoques",
+              "title": "Échourie de phoques"
+            }]
           },
           {
             "id": "30",
@@ -253,7 +313,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Zones de concentration significative de plumes de mer"]
+            "forcedProperties": [{
+              "layerName": "Sea pens significant areas / Zones de concentration significative de plumes de mer",
+              "title": "Zones de concentration significative de plumes de mer"
+            }]
           },
           {
             "id": "31",
@@ -261,7 +324,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Présence de la raie à queue de velours"]
+            "forcedProperties": [{
+              "layerName": "Smooth skate presence / Présence de la raie à queue de velours",
+              "title": "Présence de la raie à queue de velours"
+            }]
           },
           {
             "id": "32",
@@ -269,7 +335,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Étude sur le relevé du crabe des neiges - 2019"]
+            "forcedProperties": [{
+              "layerName": "Snow_Crab_Survey_2019",
+              "title": "Étude sur le relevé du crabe des neiges - 2019"
+            }]
           },
           {
             "id": "33",
@@ -277,7 +346,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Zones de concentration significative d'éponges"]
+            "forcedProperties": [{
+              "layerName": "Sponge significant benthic areas / Zones de concentration significative d'éponges",
+              "title": "Zones de concentration significative d'éponges"
+            }]
           },
           {
             "id": "34",
@@ -285,7 +357,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Habitats côtier et épipélagique du St-Laurent"]
+            "forcedProperties": [{
+              "layerName": "St. Lawrence coastal and epipelagic habitats / Habitats côtier et épipélagique du St-Laurent",
+              "title": "Habitats côtier et épipélagique du St-Laurent"
+            }]
           },
           {
             "id": "35",
@@ -293,7 +368,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Habitat essentiel du bar rayé"]
+            "forcedProperties": [{
+              "layerName": "Striped bass essential habitat / Habitat essentiel du bar rayé",
+              "title": "Habitat essentiel du bar rayé"
+            }]
           },
           {
             "id": "36",
@@ -301,7 +379,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Présence de la raie épineuse"]
+            "forcedProperties": [{
+              "layerName": "Thorny skate presence / Présence de la raie épineuse",
+              "title": "Présence de la raie épineuse"
+            }]
           },
           {
             "id": "37",
@@ -309,7 +390,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "ff", "title": "Faune et flore"},
             "regFilters": ["^0$"],
-            "alias": ["Zostère"]
+            "forcedProperties": [{
+              "layerName": "Zostera / Zostère",
+              "title": "Zostère"
+            }]
           },
           {
             "id": "38",
@@ -324,7 +408,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
             "regFilters": ["^1$"],
-            "alias": ["Habitat essentiel conformément à la loi sur les espèces en péril (LEP)"]
+            "forcedProperties": [{
+              "layerName": "Lhabitat essentiel MPO LEP 2020",
+              "title": "Habitat essentiel conformément à la loi sur les espèces en péril (LEP)"
+            }]
           },
           {
             "id": "40",
@@ -339,7 +426,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
             "regFilters": ["^0$"],
-            "alias": ["Zones d'importance écologique et biologique"]
+            "forcedProperties": [{
+              "layerName": "Ecologically and Biologically Significant Areas / Zones d'importance écologique et biologique",
+              "title": "Zones d'importance écologique et biologique"
+            }]
           },
           {
             "id": "42",
@@ -347,7 +437,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "conserve", "title": "Conservation"},
             "regFilters": ["^0$"],
-            "alias": ["Mégahabitats"]
+            "forcedProperties": [{
+              "layerName": "Megahabitats / Mégahabitats",
+              "title": "Mégahabitats"
+            }]
           },
           {
             "id": "43",
@@ -369,7 +462,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "peche", "title": "Pêcheries"},
             "regFilters": ["^0$"],
-            "alias": ["Gisements de mactre de Stimpson"]
+            "forcedProperties": [{
+              "layerName": "Surf clam beds / Gisements de mactre de Stimpson",
+              "title": "Gisements de mactre de Stimpson"
+            }]
           },
           {
             "id": "46",
@@ -377,7 +473,14 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "traffic", "title": "Traffic maritime"},
             "regFilters": ["^2$", "^3$"],
-            "alias": ["Zones de mouillage (ACHARE)", "Zones de mouillage à un navire (ACHBRT)"]
+            "forcedProperties": [{
+              "layerName": "ACHARE (Anchorage Areas)",
+              "title": "Zones de mouillage (ACHARE)"
+            },
+            {
+              "layerName": "ACHBRT (Single Ship Anchorages)",
+              "title": "Zones de mouillage à un navire (ACHBRT)"
+            }]
           },
           {
             "id": "47",
@@ -392,7 +495,10 @@
             "type": "arcgisrest",
             "groupImpose": {"id": "cotier", "title": "Milieu côtier"},
             "regFilters": ["^0$"],
-            "alias": ["Marais côtiers"]
+            "forcedProperties": [{
+              "layerName": "Marsh / Marais",
+              "title": "Marais côtiers"
+            }]
           }
         ]
       }
