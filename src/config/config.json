@@ -409,7 +409,7 @@
             "groupImpose": {"id": "conserve", "title": "Conservation"},
             "regFilters": ["^1$"],
             "forcedProperties": [{
-              "layerName": "Lhabitat essentiel MPO LEP 2020",
+              "layerName": "Lhabitat essentiel MPO LEP 2021",
               "title": "Habitat essentiel conformément à la loi sur les espèces en péril (LEP)"
             }]
           },
@@ -474,7 +474,7 @@
             "groupImpose": {"id": "traffic", "title": "Traffic maritime"},
             "regFilters": ["^2$", "^3$"],
             "forcedProperties": [{
-              "layerName": "ACHARE (Anchorage Areas)",
+              "layerName": "ACHARE  (Anchorage Areas)",
               "title": "Zones de mouillage (ACHARE)"
             },
             {
