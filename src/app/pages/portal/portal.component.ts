@@ -111,6 +111,8 @@ export class PortalComponent implements OnInit, OnDestroy {
   public sidenavOpened$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public minSearchTermLength = 2;
   public hasExpansionPanel = false;
+  public showMenuButton = true;
+  public showSearchBar = true;
   public hasGeolocateButton = true;
   public showRotationButtonIfNoRotation = false;
   public hasFeatureEmphasisOnSelection: Boolean = false;
@@ -311,7 +313,11 @@ export class PortalComponent implements OnInit, OnDestroy {
   ) {
     this.hasExpansionPanel = this.configService.getConfig('hasExpansionPanel');
     this.hasGeolocateButton =
-    this.configService.getConfig('hasGeolocateButton') === undefined ? true : this.configService.getConfig('hasGeolocateButton') ;
+    this.configService.getConfig('hasGeolocateButton') === undefined ? true : this.configService.getConfig('hasGeolocateButton');
+    this.showSearchBar =
+    this.configService.getConfig('showSearchBar') === undefined ? true : this.configService.getConfig('showSearchBar');
+    this.showMenuButton =
+    this.configService.getConfig('showMenuButton') === undefined ? true : this.configService.getConfig('showMenuButton');
     this.showRotationButtonIfNoRotation =
     this.configService.getConfig('showRotationButtonIfNoRotation') === undefined ? false : this.configService.getConfig('showRotationButtonIfNoRotation') ;
     this.forceCoordsNA = this.configService.getConfig('app.forceCoordsNA');
