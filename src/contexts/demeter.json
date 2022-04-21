@@ -1,0 +1,638 @@
+{
+  "uri": "demeter",
+  "title": "CPTAQ",
+  "base": "_base",
+  "message": {
+    "title": "Info",
+    "text": "welcome",
+    "type": "info",
+    "options": {
+      "timeOut": 20000
+    }
+  },
+  "map": {
+    "view": {
+      "projection": "EPSG:3857",
+      "center": [-73.7, 48.0],
+      "zoom": 7,
+      "maxZoom": 19,
+      "maxZoomOnExtent": 17,
+      "homeExtent": {
+        "extent": [-9000000, 5790000,-7500000, 6770000],
+        "center": [-72.069923, 48.672381],
+        "zoom": 10
+        }
+    }
+  },
+  "layers": [
+    {
+      "linkedLayers": {
+        "linkId": "declarationNumeroLink"
+    },
+      "showInLayerList": false,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "declaration_numero",
+            "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "title":"Déclaration (Année 2001 et plus)",
+      "linkedLayers": {
+          "linkId": "declaration_group",
+          "links": [{
+                      "bidirectionnal": true,
+                      "linkedIds": ["declarationNumeroLink"],
+                      "syncedDelete": true,
+                      "properties": ["visible"]
+                    }]
+      },
+        "sourceOptions": {
+            "type": "wms",
+            "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+            "optionsFromCapabilities": true,
+            "params": {
+              "layers": "declaration",
+              "version": "1.3.0"
+            },
+            "queryable": true,
+            "queryFormat": "gml2",
+            "queryTitle": "Déclaration (Année 2001 et plus)"
+        }
+    },
+   {
+      "title":"Demandes d'autorisation",
+      "linkedLayers": {
+            "linkId": "demande_group",
+            "links": [{
+                        "bidirectionnal": true,
+                        "linkedIds": ["demande_Point","demandeNumeroLink","demandeNumeroPointLink"],
+                        "syncedDelete": true,
+                        "properties": ["visible"]
+                      }]
+        },
+        "sourceOptions": {
+            "type": "wms",
+            "optionsFromCapabilities": true,
+            "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+            "params": {
+                "layers": "demande", 
+                "version": "1.3.0"
+            },
+            "queryable": true,
+            "queryFormat": "gml2",
+            "queryTitle": "Demandes d'autorisation"
+        },
+        "legendOptions": {
+          "collapsed": true,
+          "display": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq?REQUEST=GetLegendGraphic&SERVICE=WMS&FORMAT=image/png&SLD_VERSION=1.1.0&VERSION=1.3.0&LAYER=demandes"
+        }
+    },
+    {
+      "title":"Demandes d'autorisation (Point)",
+      "linkedLayers": {
+          "linkId": "demande_Point"
+      },
+      "showInLayerList": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+           "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "params": {
+              "layers": "demande_p", 
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Demandes d'autorisation (Point)"
+      }
+    },
+    {
+      "linkedLayers": {
+          "linkId": "demandeNumeroLink"
+      },
+      "showInLayerList": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+           "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "params": {
+              "layers": "no_demande", 
+              "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "linkedLayers": {
+          "linkId": "demandeNumeroPointLink"
+      },
+      "showInLayerList": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+           "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "params": {
+              "layers": "no_demande_p", 
+              "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+           "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "article59_ilot", 
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "article59 - îlot"
+      }
+    },
+    {
+      "visible":false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+           "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "article59_secteur", 
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "article59 - secteur"
+      }
+    },
+    {
+      "zIndex":180,
+      "title": "Zone agricole (Échelle 1 :20 000 et plus)",
+      "linkedLayers": {
+        "linkId": "zone_agricole_group",
+        "links": [{
+                    "bidirectionnal": false,
+                    "linkedIds": ["zone_maxLink"],
+                    "syncedDelete": true,
+                    "properties": ["visible"]
+                  }]
+      },
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "params": {
+              "layers": "zone_min",
+              "version": "1.3.0"
+          },
+          "queryable": false
+      },
+        "visible":true,
+        "minScaleDenom":20000,
+        "maxScaleDenom":10000000,
+        "legendOptions": {
+          "collapsed": true,
+          "display": true
+      }
+    },
+    
+    {
+      "linkedLayers": {
+        "linkId": "zone_maxLink"
+      },
+      "showInLayerList": false,
+      "visible":true,
+      "minScaleDenom":20000,
+      "zIndex":102,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "params": {
+              "layers": "zone_max",
+              "version": "1.3.0"
+          },
+          "queryable": false
+      }
+    },
+
+    {
+      "zIndex":200,
+      "title": "Zone agricole transposée au Cadastre du Québec",
+      "linkedLayers": {
+        "linkId": "zone_agricole_transposee_group",
+        "links": [{
+                    "bidirectionnal": true,
+                    "linkedIds": ["za_ajustee_sLink","za_ajustee_s_nd_textLink"],
+                    "syncedDelete": true,
+                    "properties": ["visible"]
+                  }]
+      },
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "params": {
+              "layers": "za_transposee_l",
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Zone agricole transposée au Cadastre du Québec"
+      },
+        "legendOptions": {
+        "collapsed": true,
+        "display": true,
+        "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo?REQUEST=GetLegendGraphic&SERVICE=WMS&FORMAT=image/png&SLD_VERSION=1.1.0&VERSION=1.3.0&LAYER=zone_agricole_transposee"
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "za_ajustee_sLink"
+      },
+      "showInLayerList": false,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "za_transposee_s",
+            "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "za_ajustee_s_nd_textLink"
+    },
+    "showInLayerList": false,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "za_ajustee_s_nd_text",
+            "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "incl_excl_numeroLink"
+    },
+    "showInLayerList": false,
+    "zIndex": 171,
+    "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "incl_excl_numero",
+            "version": "1.3.0"
+          }
+      }
+    },   
+    {
+    "title": "Inclusion et exclusion de la zone gricole",
+    "linkedLayers": {
+      "linkId": "incl_excl_group",
+      "links": [{
+                  "bidirectionnal": true,
+                  "linkedIds": ["incl_excl_numeroLink"],
+                  "syncedDelete": true,
+                  "properties": ["visible"]
+                }]
+    },
+      "zIndex": 170,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq",
+          "optionsFromCapabilities": true,
+          "params": {
+            "layers": "incl_excl",
+            "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Inclusions et exclusions"
+      }
+    }, 
+    {
+      "zIndex": 130,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "lot_renove",
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Lot rénové"
+      }
+    },
+    {
+      "title":"Compilation cadastrale",
+      "visible": false,
+      "maxScaleDenom": 60001,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": false,
+          "queryable": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_cadastre",
+          "params": {
+              "layers": "compilation",
+              "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "title":"Adresse localisée",
+      "visible": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "adresse",
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Adresse localisée"
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "munic_sNomLink"
+    },
+      "showInLayerList": false,
+      "zIndex": 110,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "munic_s_text",
+            "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "title":"Municipalité",
+      "zIndex": 109,
+      "visible": false,
+      "linkedLayers": {
+        "linkId": "municipalite_group",
+        "links": [{
+                    "bidirectionnal": true,
+                    "linkedIds": ["munic_sNomLink"],
+                    "syncedDelete": true,
+                    "properties": ["visible"]
+                  }]
+      },
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "munic_s",
+              "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "mrcNomLink"
+      },
+      "showInLayerList": false,
+      "zIndex": 120,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "mrc_text",
+            "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "title":"MRC",
+      "zIndex": 119,
+      "visible": false,
+      "linkedLayers": {
+        "linkId": "mrc_group",
+        "links": [{
+                    "bidirectionnal": true,
+                    "linkedIds": ["mrcNomLink"],
+                    "syncedDelete": true,
+                    "properties": ["visible"]
+                  }]
+      },
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "mrc_s",
+              "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "PotentielNumeroLink"
+    },
+    "showInLayerList": false,
+      "zIndex": 90,
+      "sourceOptions": {
+          "type": "wms",
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "params": {
+            "layers": "potentiel_text",
+            "version": "1.3.0"
+          }
+      }
+    },
+    {
+      "visible": false,
+      "linkedLayers": {
+        "linkId": "potentiel_group",
+        "links": [{
+                    "bidirectionnal": true,
+                    "linkedIds": ["PotentielNumeroLink"],
+                    "syncedDelete": true,
+                    "properties": ["visible"]
+                  }]
+      },
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "potentiel",
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Potentiel des sols"
+      }
+    },
+    {
+      "visible": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          
+          "params": {
+              "layers": "erable",
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Potentiel acéricole"
+      }
+    },
+    {
+      "visible": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "bdppad",
+              "version": "1.3.0"
+          },
+          "queryable": true,
+          "queryFormat": "gml2",
+          "queryTitle": "Parcelles et productions agricoles déclarées (FADQ)"
+      }
+    },
+    {
+      "title":"Hypsometrie",
+      "visible": false,
+      "linkedLayers": {
+        "linkId": "hypsometrie_group",
+        "links": [{
+                    "bidirectionnal": true,
+                    "linkedIds": ["hypso_l_point","hypso_l_annoLink"],
+                    "syncedDelete": true,
+                    "properties": ["visible"]
+                  }]
+      },
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "hypso_l_arc",
+              "version": "1.3.0"
+          },
+          "queryTitle": "hypsometrie"
+      },
+      "legendOptions": {
+        "collapsed": true,
+        "display": true,
+        "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo?REQUEST=GetLegendGraphic&SERVICE=WMS&FORMAT=image/png&SLD_VERSION=1.1.0&VERSION=1.3.0&LAYER=hypsometrie"
+      }
+    },
+    {
+      "linkedLayers": {
+        "linkId": "hypso_l_pointLink"
+      },
+      "showInLayerList": false,
+      "visible": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "hypso_l_point",
+              "version": "1.3.0"
+          },
+          "queryTitle": "hypsometrie"
+      }
+    },
+    {
+      "zIndex": 88,
+      "linkedLayers": {
+        "linkId": "hypso_l_annoLink"
+      },
+      "showInLayerList": false,
+      "visible": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "hypso_l_anno",
+              "version": "1.3.0"
+          },
+          "queryable": false
+      }
+    },
+    {
+      "title":"Hydrographie",
+      "zIndex": 1,
+      "visible": false,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "hydrographie",
+              "version": "1.3.0"
+          },
+          "queryable": false
+      }
+    },
+    {
+      "title" : "1979-81",
+      "visible": false,
+      "baseLayer": true,
+      "sourceOptions": {
+          "type": "wms",
+          "optionsFromCapabilities": true,
+          "queryable": false,
+          "url": "https://carto-dev.cptaq.local/cgi-bin/cptaq_igo",
+          "params": {
+              "layers": "photographie_79-80_IGO2",
+              "version": "1.3.0"
+          }
+      }
+    }
+  ],
+  "toolbar": [
+    "searchResults",
+    "mapTools",
+    "spatialFilter",
+    "measurer",
+    "draw",
+    "print",
+    "shareMap",
+    "about"
+  ]
+}

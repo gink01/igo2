@@ -43,7 +43,8 @@
     "ghpages.win": "npx ngh --dir=dist/ghpages --no-silent=false --message=%npm_package_version%",
     "ghrelease": "VERSION=$(node -p -e \"require('./package.json').version\") && publish-release --owner infra-geo-ouverte --repo igo2 --tag $VERSION --name $VERSION --reuse-release --notes \"$(npm run changelog-current -s)\" --assets dist/igo2.zip",
     "preghrelease.win": "rimraf igo2.zip && cd ./dist/igo2/ && tar -a -c -f ../igo2.zip *",
-    "ghrelease.win": "gh-release -o infra-geo-ouverte -r igo -t %npm_package_version% -n %npm_package_version% -a dist/igo2.zip"
+    "ghrelease.win": "gh-release -o infra-geo-ouverte -r igo -t %npm_package_version% -n %npm_package_version% -a dist/igo2.zip",
+    "go" : "start http://localhost:4200/?context=demeter & ng serve"
   },
   "private": true,
   "dependencies": {

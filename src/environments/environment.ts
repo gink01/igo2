@@ -48,7 +48,7 @@ export const environment: Environment = {
     app: {
       forceCoordsNA: true
     },
-    auth: {
+    /*auth: {
       url: '/apis/users',
       tokenKey: 'id_token_igo',
       allowAnonymous: true,
@@ -57,8 +57,8 @@ export const environment: Environment = {
          domainRegFilters: '(https:\/\/|http:\/\/)?(.*domain.com)(.*)',
          keyProperty: 'key',
          keyValue: '123456',
-      }]*/
-    },
+      }]
+    },*/
     catalog: {
       sources: [
         {
@@ -215,10 +215,10 @@ export const environment: Environment = {
         }
       ]
     },
-    // context: {
+     context: {
     //   url: '/apis/igo2',
-    //   defaultContextUri: '5'
-    // },
+       defaultContextUri: 'demeter'
+     },
     depot: {
       url: '/apis/depot'
     },
@@ -240,8 +240,8 @@ export const environment: Environment = {
         available: false
       },
       icherche: {
-        searchUrl: '/apis/icherche',
-        order: 2,
+        searchUrl: 'https://geoegl.msp.gouv.qc.ca/apis/icherche',
+        order: 5,
         params: {
           limit: '5'
         }
@@ -251,19 +251,26 @@ export const environment: Environment = {
       },
       icherchereverse: {
         showInPointerSummary: true,
-        searchUrl: '/apis/terrapi',
-        order: 3,
+        searchUrl: 'https://geoegl.msp.gouv.qc.ca/apis/terrapi',
+        order: 4,
         enabled: true
       },
       ilayer: {
-        searchUrl: '/apis/icherche/layers',
-        order: 4,
+        searchUrl: 'https://geoegl.msp.gouv.qc.ca/apis/icherche/layers',
+        order: 3,
         params: {
           limit: '5'
         }
       },
       cadastre: {
-        enabled: false
+        order: 2,
+        enabled: true,
+        available: true
+      },
+      cptaq: {
+        order: 1,
+        enabled: true,
+        available: true
       }
     },
     projections: [
